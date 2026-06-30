@@ -34,8 +34,7 @@
     <div class="nav-inner">
 
       <a href="index.html" class="cinedex-logo" aria-label="CineDex Home">
-        <div class="logo-mark">CD</div>
-        <span class="logo-text">CINE<span>DEX</span></span>
+        <img src="logo.jpeg" alt="CineDex" width="100">
       </a>
 
       <div class="nav-search" role="search">
@@ -51,25 +50,30 @@
       </div>
 
       <div class="nav-links" role="menubar">
-        <div class="nav-dropdown" role="menuitem">
-          <span class="nav-link-item">Categories <i class="bi bi-chevron-down" style="font-size:10px"></i></span>
+        <a href="index.html" class="nav-link-item">Home</a>
+        <div class="nav-dropdown" role="menuitem" id="categoriesDropdown">
+          <span class="nav-link-item" onclick="toggleCategoriesDropdown(event)">Categories <i class="bi bi-chevron-down" style="font-size:10px"></i></span>
           <div class="nav-dropdown-menu">
-            <a href="#">Action</a>
-            <a href="#">Drama</a>
-            <a href="#">Sci-Fi</a>
-            <a href="#">Comedy</a>
-            <a href="#">Horror</a>
-            <a href="#">Thriller</a>
+            <div class="nav-dropdown-menu-inner">
+              <a href="viewall.html?genre=Action">Action</a>
+              <a href="viewall.html?genre=Drama">Drama</a>
+              <a href="viewall.html?genre=Sci-Fi">Sci-Fi</a>
+              <a href="viewall.html?genre=Comedy">Comedy</a>
+              <a href="viewall.html?genre=Horror">Horror</a>
+              <a href="viewall.html?genre=Thriller">Thriller</a>
+              <a href="viewall.html?genre=Animation">Animation</a>
+            </div>
           </div>
         </div>
-        <a href="index.html" class="nav-link-item">Movies</a>
-        <span class="nav-link-item">TV Shows</span>
-        <span class="nav-link-item">Celebrities</span>
-        <span class="nav-link-item">Awards</span>
+        <a href="viewall.html?section=allmovies" class="nav-link-item">Movies</a>
+        <span class="nav-link-item" onclick="window.location.href='viewall.html?section=alltv'">TV Shows</span>
+        <span class="nav-link-item" onclick="window.location.href='viewall.html?section=celebs'">Celebrities</span>
+        <span class="nav-link-item" onclick="window.location.href='viewall.html?section=awards'">Awards</span>
       </div>
 
       <button class="nav-watchlist" data-watchlist aria-label="My Watchlist">
         <i class="bi bi-bookmark-plus"></i> Watchlist
+        <span data-watchlist-count style="display:none;background:var(--accent);color:#000;font-size:11px;font-weight:700;padding:1px 6px;border-radius:50px;margin-left:6px;">0</span>
       </button>
       <button class="btn-signin">Sign In</button>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
@@ -81,11 +85,12 @@
 
 <!-- Mobile Drawer -->
 <div class="mobile-nav-drawer" id="mobileDrawer">
-  <a href="index.html">Movies</a>
-  <a href="#">TV Shows</a>
-  <a href="#">Celebrities</a>
-  <a href="#">Awards</a>
-  <a href="#">Watchlist</a>
+  <a href="index.html">Home</a>
+  <a href="viewall.html?section=allmovies">Movies</a>
+  <a href="viewall.html?section=alltv">TV Shows</a>
+  <a href="viewall.html?section=celebs">Celebrities</a>
+  <a href="viewall.html?section=awards">Awards</a>
+  <a href="viewall.html?section=watchlist">Watchlist</a>
   <a href="#">Sign In</a>
 </div>
 
@@ -132,7 +137,7 @@
           <button class="btn-primary-cta" id="detailTrailerBtn" onclick="document.getElementById('trailerSection').scrollIntoView({behavior:'smooth'})">
             <i class="bi bi-play-fill"></i> Watch Trailer
           </button>
-          <button class="btn-secondary-cta" data-watchlist>
+          <button class="btn-secondary-cta" id="detailWatchlistBtn">
             <i class="bi bi-bookmark-plus"></i> Add to Watchlist
           </button>
           <button class="btn-secondary-cta" onclick="shareMovie()">
@@ -227,8 +232,7 @@
     <div class="row g-5">
       <div class="col-12 col-md-5">
         <a href="index.html" class="cinedex-logo">
-          <div class="logo-mark">CD</div>
-          <span class="logo-text">CINE<span>DEX</span></span>
+          <img src="logo.jpeg" alt="CineDex" width="100">
         </a>
         <p class="footer-tagline" style="margin-top:10px">Your complete guide to movies, TV shows, and the people who make them.</p>
         <div class="footer-social" style="margin-top:16px">
@@ -258,9 +262,9 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-bottom-text">© 2024 CineDex. All rights reserved.</span>
+      <span class="footer-bottom-text">© 2026 CineDex. All rights reserved.</span>
       <div class="footer-rating-badge">
-        <span class="footer-rating-mark">CD</span>
+        <img src="logo.jpeg" alt="CineDex" style="height:20px;width:auto;border-radius:4px;">
         <span>Not affiliated with any streaming platform.</span>
       </div>
     </div>
@@ -269,6 +273,44 @@
 
 <!-- Scroll to top -->
 <button id="scrollTopBtn" aria-label="Scroll to top"><i class="bi bi-chevron-up"></i></button>
+
+<!-- Sign In Modal -->
+<div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center px-5 pb-5">
+        <h2 class="modal-title mb-3" id="signInModalLabel" style="color:white; display:flex; align-items:center; justify-content:center; gap:10px;">
+          Welcome to <img src="logo.jpeg" alt="CineDex Logo" width="140" style="vertical-align:middle;">
+        </h2>
+        <p class="text-muted mb-4" style="font-size:14px; color:white;">
+          Sign in to save your watchlist and ratings
+        </p>
+
+        <button class="signin-social-btn mb-3">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="20" alt="Google"> Continue with Google
+        </button>
+        <button class="signin-social-btn mb-3">
+          <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" width="20" alt="Facebook"> Continue with Facebook
+        </button>
+        <button class="signin-social-btn mb-4">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg> Continue with Apple
+        </button>
+
+        <div class="signin-divider mb-3"><span>Or</span></div>
+
+        <p style="font-size:14px; color:white;">
+          <a href="#" class="text-accent">Sign up</a> or <a href="#" class="text-accent">log in</a> with email
+        </p>
+        <p class="text-muted mt-3" style="font-size:12px; color:white;">
+          By continuing, you agree to our <a href="#" class="text-accent">Terms</a> and <a href="#" class="text-accent">Privacy Policy</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Toast -->
 <div id="toastNotification" class="toast-custom" role="status" aria-live="polite"></div>

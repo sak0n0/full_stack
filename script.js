@@ -432,6 +432,46 @@ window.setHero = function(idx) {
 };
 
 /* ── 5. Render Trending Movies ────────────────────────────── */
+/* ── 5b. Watchlist Storage ────────────────────────────────── */
+const WATCHLIST_KEY = 'cdWatchlist';
+
+function getWatchlist() {
+  try { return JSON.parse(localStorage.getItem(WATCHLIST_KEY) || '[]'); }
+  catch { return []; }
+}
+function isInWatchlist(id) {
+  return getWatchlist().includes(id);
+}
+function toggleWatchlist(id) {
+  let list = getWatchlist();
+  const inList = list.includes(id);
+  list = inList ? list.filter(x => x !== id) : [...list, id];
+  localStorage.setItem(WATCHLIST_KEY, JSON.stringify(list));
+  updateWatchlistCount();
+  return !inList; // true if just added
+}
+function updateWatchlistCount() {
+  const count = getWatchlist().length;
+  document.querySelectorAll('[data-watchlist-count]').forEach(el => {
+    el.textContent = count;
+    el.style.display = count > 0 ? 'inline-flex' : 'none';
+  });
+}
+function bookmarkBtnHTML(id) {
+  const active = isInWatchlist(id);
+  return `<button class="card-bookmark-btn ${active ? 'active' : ''}" data-bookmark-id="${id}"
+            onclick="event.stopPropagation(); handleBookmarkClick(this, ${id})"
+            aria-label="Toggle watchlist">
+            <i class="bi ${active ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus'}"></i>
+          </button>`;
+}
+function handleBookmarkClick(btn, id) {
+  const added = toggleWatchlist(id);
+  btn.classList.toggle('active', added);
+  btn.querySelector('i').className = added ? 'bi bi-bookmark-check-fill' : 'bi bi-bookmark-plus';
+  showToast(added ? 'Added to Watchlist!' : 'Removed from Watchlist', added ? 'bi-bookmark-check-fill' : 'bi-bookmark-x');
+}
+
 function renderTrending() {
   const container = document.getElementById('trendingGrid');
   if (!container) return;
@@ -444,6 +484,7 @@ function renderTrending() {
         <div class="movie-card-poster">
           <img src="${m.poster}" alt="${sanitize(m.title)}" loading="lazy">
           <div class="movie-card-rating">${starIcon()} ${m.rating}</div>
+          ${bookmarkBtnHTML(m.id)}
           <div class="movie-card-overlay">
             <button class="movie-card-overlay-btn" onclick="event.stopPropagation(); window.location.href='movie.html?id=${m.id}'">
               <i class="bi bi-play-fill"></i> View Details
@@ -469,12 +510,15 @@ function renderTVShows() {
 
   container.innerHTML = tvShows.filter(s => s.trending).map(s => `
     <div class="col-6 col-sm-4 col-lg-3">
-      <div class="movie-card" role="button" tabindex="0" aria-label="${sanitize(s.title)}">
+      <div class="movie-card" role="button" tabindex="0" aria-label="${sanitize(s.title)}"
+           onclick="window.location.href='movie.html?id=${s.id}'">
         <div class="movie-card-poster">
-          <img src="${s.poster}" alt="${sanitize(s.title)}" loading="lazy">
+          <img src="${s.poster}" alt="${sanitize(s.title)}" loading="lazy"
+               onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
           <div class="movie-card-rating">${starIcon()} ${s.rating}</div>
+          ${bookmarkBtnHTML(s.id)}
           <div class="movie-card-overlay">
-            <button class="movie-card-overlay-btn">
+            <button class="movie-card-overlay-btn" onclick="event.stopPropagation(); window.location.href='movie.html?id=${s.id}'">
               <i class="bi bi-play-fill"></i> View Details
             </button>
           </div>
@@ -635,11 +679,40 @@ function initMobileNav() {
   });
 }
 
+/* ── 13b. Categories Dropdown (click-to-open, mobile-friendly) ── */
+function toggleCategoriesDropdown(e) {
+  e.stopPropagation();
+  const dropdown = document.getElementById('categoriesDropdown');
+  if (!dropdown) return;
+  dropdown.classList.toggle('open');
+}
+document.addEventListener('click', (e) => {
+  const dropdown = document.getElementById('categoriesDropdown');
+  if (dropdown && !dropdown.contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});
+
+/* ── 13c. Sign In Modal ───────────────────────────────────── */
+function initSignIn() {
+  document.querySelectorAll('.btn-signin').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const modalEl = document.getElementById('signInModal');
+      if (!modalEl) return;
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+    });
+  });
+}
+
 /* ── 14. Watchlist Button ─────────────────────────────────── */
 function initWatchlist() {
   document.querySelectorAll('[data-watchlist]').forEach(btn => {
-    btn.addEventListener('click', () => showToast('Added to Watchlist!', 'bi-bookmark-check-fill'));
+    btn.addEventListener('click', () => {
+      window.location.href = 'viewall.html?section=watchlist';
+    });
   });
+  updateWatchlistCount();
 }
 
 /* ── 15. Movie Detail Page ────────────────────────────────── */
@@ -670,6 +743,25 @@ function initDetailPage() {
 
   /* Poster + basic info */
   container.innerHTML = buildDetailHTML(movie);
+
+  /* Wire up Add to Watchlist button */
+  const wlBtn = document.getElementById('detailWatchlistBtn');
+  if (wlBtn) {
+    const setState = () => {
+      const active = isInWatchlist(movie.id);
+      wlBtn.classList.toggle('active', active);
+      wlBtn.innerHTML = active
+        ? '<i class="bi bi-bookmark-check-fill"></i> In Watchlist'
+        : '<i class="bi bi-bookmark-plus"></i> Add to Watchlist';
+    };
+    setState();
+    wlBtn.addEventListener('click', () => {
+      toggleWatchlist(movie.id);
+      setState();
+      showToast(isInWatchlist(movie.id) ? 'Added to Watchlist!' : 'Removed from Watchlist',
+                 isInWatchlist(movie.id) ? 'bi-bookmark-check-fill' : 'bi-bookmark-x');
+    });
+  }
 
   /* Render similar movies */
   const simGrid = document.getElementById('similarGrid');
@@ -765,6 +857,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollTop();
   initMobileNav();
   initWatchlist();
+  initSignIn();
   initDetailPage();
 });
 
