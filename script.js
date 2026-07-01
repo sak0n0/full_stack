@@ -34,6 +34,36 @@ const movies = [
     ]
   },
   {
+    "id": 36,
+    "title": "365 Days",
+    "year": 2020,
+    "rating": 3.3,
+    "genre": ["Drama", "Romance"],
+    "runtime": "114 min",
+    "director": "Barbara Białowąs",
+    "description": "Laura, a fiery young executive trapped in a stale relationship, is kidnapped by a dominant Sicilian mafia boss named Massimo. He imprisons her and grants her exactly 365 days to fall in love with him.",
+    "poster": "image/365.jpg",
+    "backdrop": "imgae/365BG.jpg",
+    "type": "movie",
+    "trending": false,
+    "topRated": false,
+    "budget": "$10M",
+    "boxoffice": "$9.5M",
+    "language": "Polish/Italian",
+    "country": "Poland",
+    "releaseDate": "February 7, 2020",
+    "writers": ["Tomasz Klimala", "Barbara Białowąs", "Tomasz Mandes"],
+    "cast": [
+      { "name": "Anna-Maria Sieklucka", "char": "Laura Biel", "photo": "https://image.tmdb.org/t/p/w185/8ZzSjR6u68Zsc8p7ClpS9GvGscX.jpg" },
+      { "name": "Michele Morrone", "char": "Don Massimo Torricelli", "photo": "https://image.tmdb.org/t/p/w185/6zSCjP89clgSCG76sc8G9mX9clg.jpg" }
+    ],
+    "trailer": "https://www.youtube.com/embed/P-A3yV-EclE",
+    "gallery": [
+      "https://image.tmdb.org/t/p/w500/is6w79f8069scS9Clp36jY77gO0.jpg",
+      "https://image.tmdb.org/t/p/w500/7Zsc89pGClsC69mX9clG89S7clg.jpg"
+    ]
+  },
+  {
     id: 2,
     title: "Oppenheimer",
     year: 2023, rating: 8.9,
@@ -90,7 +120,7 @@ const movies = [
     runtime: "141 min",
     director: "Yorgos Lanthimos",
     description: "The incredible tale of Bella Baxter, brought back to life and eager to learn the wonders of the world.",
-    poster: "https://image.tmdb.org/t/p/w500/kCGlIMHnOm8JPXNbM8lGs1jrHHF.jpg",
+    poster: "image/PTH.jpg",
     backdrop: "https://image.tmdb.org/t/p/original/bQXAqRx2Fgc46uCVWgoPz5L5Dtr.jpg",
     type: "movie", trending: true, topRated: false,
     budget: "$35M", boxoffice: "$117M",
@@ -156,7 +186,7 @@ const movies = [
     runtime: "206 min",
     director: "Martin Scorsese",
     description: "Members of the Osage tribe are murdered under mysterious circumstances in the 1920s, leading to the nascent FBI to investigate.",
-    poster: "https://image.tmdb.org/t/p/w500/dB6Krk806zeqd0YLjFVofu5XRUM.jpg",
+    poster: "image/KOTPM.jpg",
     backdrop: "https://image.tmdb.org/t/p/original/1X7vow16X7CnCoexXh4H4F2yDJv.jpg",
     type: "movie", trending: true, topRated: false,
     budget: "$200M", boxoffice: "$157M",
@@ -191,6 +221,118 @@ const movies = [
     ],
     trailer: "https://www.youtube.com/embed/EXeTwQWrcwY",
     gallery: []
+  },
+  {
+    id: 105,
+    title: "Superman",
+    year: 1978,
+    rating: 7.3,
+    genre: ["Action", "Sci-Fi"],
+    runtime: "143 min",
+    description: "An alien orphan is sent from his dying planet to Earth, where he grows up to become his adoptive home's first and greatest superhero.",
+    poster: "image/SPM.jpg",
+    backdrop: "https://image.tmdb.org/t/p/original/v73gPL8ydgY8Gclv7stWnoSt76q.jpg",
+    type: "movie",
+    trending: true,
+    topRated: true
+  },
+   {
+    id: 106,
+    title: "Spider-Man",
+    year: 2002,
+    rating: 7.4,
+    genre: ["Action", "Sci-Fi"],
+    runtime: "121 min",
+    description: "After being bitten by a genetically modified spider, a shy teenager gains spider-like abilities that he uses to fight injustice as a masked superhero.",
+    poster: "image/spd2002.jpg",
+    backdrop: "image/SPDBG.jpg",
+    type: "movie",
+    trending: true,
+    topRated: false
+  },
+  {
+    id: 107,
+    title: "Batman",
+    year: 1989,
+    rating: 7.5,
+    genre: ["Action", "Crime"],
+    runtime: "126 min",
+    description: "The Dark Knight of Gotham City begins his war on crime with his first major enemy being Jack Napier, a criminal who becomes the clownishly homicidal Joker.",
+    poster: "image/batman.jpg",
+    backdrop: "https://image.tmdb.org/t/p/original/2va62696X9gH68NnZ5v73gPL8yd.jpg",
+    type: "movie",
+    trending: false,
+    topRated: true
+  },
+  {
+    id: 108,
+    title: "Guardians of the Galaxy",
+    year: 2014,
+    rating: 8.0,
+    genre: ["Action", "Sci-Fi", "Adventure"],
+    runtime: "121 min",
+    description: "A group of intergalactic criminals must pull together to stop a fanatical warrior with plans to purge the universe.",
+    poster: "image/GD2.jpg",
+    backdrop: "https://image.tmdb.org/t/p/original/b9Y9vYv969vNda8v6Uyy9is7cx.jpg",
+    type: "movie",
+    trending: true,
+    topRated: true
+  },
+   {
+    id: 110,
+    title: "How to Train Your Dragon",
+    year: 2010,
+    rating: 8.1,
+    genre: ["Animation", "Adventure", "Family"],
+    runtime: "98 min",
+    description: "A hapless young Viking who aspires to hunt dragons becomes the unlikely friend of a young Night Fury dragon.",
+    poster: "image/train dragon.jpg",
+    backdrop: "https://image.tmdb.org/t/p/original/pBjrVDwDhM7cl6796g19NbeZ9b6.jpg",
+    type: "movie",
+    trending: false,
+    topRated: true
+  },
+  {
+    id: 109,
+    title: "Clown",
+    year: 2014,
+    rating: 5.7,
+    genre: ["Horror", "Thriller"],
+    runtime: "100 min",
+    description: "A loving father finds a clown suit for his son's birthday party, only to realize the suit is part of an evil curse that turns its wearer into a killer.",
+    poster: "image/clown.jpg",
+    backdrop: "image/CLWNBG.jpg",
+    type: "movie",
+    trending: false,
+    topRated: false
+  },
+   {
+    id: 111,
+    title: "Need for Speed",
+    year: 2014,
+    rating: 6.4,
+    genre: ["Action", "Crime", "Thriller"],
+    runtime: "132 min",
+    description: "Fresh from prison, a street racer who was framed by a wealthy business associate joins a cross-country race with revenge in mind.",
+    poster: "image/NFS.jpg",
+    backdrop: "image/NFS.jpg",
+    type: "movie",
+    trending: false,
+    topRated: false
+  },
+     {
+    id: 112,
+    title: "The Fast and the Furious",
+    year: 2001,
+    rating: 6.8,
+    genre: ["Action", "Crime", "Thriller"],
+    runtime: "106 min",
+    description: "Los Angeles police officer Brian O'Conner must decide where his loyalty really lies when he becomes enamored with the street racing world he has been sent undercover to destroy.",
+    poster: "image/FAF.jpg",
+    backdrop: "image/FNFBG.jpg",
+    type: "movie",
+    trending: true,
+    topRated: false
   }
 ];
 
@@ -202,7 +344,7 @@ const tvShows = [
     genre: ["Drama", "History"],
     runtime: "60 min/ep",
     description: "Set in feudal Japan, an English navigator rises to become a samurai lord.",
-    poster: "https://image.tmdb.org/t/p/w500/7O4iVfOMQmdCSxhOg4bCbRAjOEG.jpg",
+    poster: "image/SG.jpg",
     backdrop: "https://image.tmdb.org/t/p/original/lnMFqPLTAUjRJkxFi1TkXgfixaL.jpg",
     type: "tv", trending: true, topRated: false
   },
@@ -219,12 +361,12 @@ const tvShows = [
   },
   {
     id: 103,
-    title: "Fallout",
-    year: 2024, rating: 8.5,
+    title: "Minions",
+    year: 2015, rating: 8.5,
     genre: ["Sci-Fi", "Action"],
     runtime: "60 min/ep",
     description: "A woman emerges from her underground vault into a post-apocalyptic world.",
-    poster: "https://image.tmdb.org/t/p/w500/AnsSKR52F0pOIELsKfbON1sYzLD.jpg",
+    poster: "image/MN.jpg",
     backdrop: "https://image.tmdb.org/t/p/original/lgkPzcOSnTvjeMnuFzozRO5HHw1.jpg",
     type: "tv", trending: true, topRated: false
   },
@@ -235,23 +377,30 @@ const tvShows = [
     genre: ["Drama", "Thriller"],
     runtime: "50 min/ep",
     description: "Mark leads a team of office workers whose memories have been surgically divided between their work and personal lives.",
-    poster: "https://image.tmdb.org/t/p/w500/rqt2kFLnCCbD7VBRuEA2cTZ38J3.jpg",
+    poster: "SVR.jpg",
     backdrop: "https://image.tmdb.org/t/p/original/4UxRdBSgqAqnmz70AHpBjRVDwDh.jpg",
     type: "tv", trending: false, topRated: true
-  }
+  },
+  
+ 
+  
+  
+  
+ 
+
 ];
 
 const celebrities = [
   {
     id: 201,
     name: "Cillian Murphy", profession: "Actor",
-    photo: "https://image.tmdb.org/t/p/w185/dm6V24NjjvjMiCtbMkc8Y2WPm2a.jpg",
+    photo: "image/CM.jpg",
     films: "Oppenheimer, Peaky Blinders, Batman Begins"
   },
   {
     id: 202,
     name: "Emma Stone", profession: "Actress",
-    photo: "https://image.tmdb.org/t/p/w185/p5uMLiV7O0yXVpD4C1eLzDwLBHj.jpg",
+    photo: "image/EMS.jpg",
     films: "Poor Things, La La Land, The Favourite"
   },
   {
@@ -263,19 +412,19 @@ const celebrities = [
   {
     id: 204,
     name: "Zendaya", profession: "Actress",
-    photo: "https://image.tmdb.org/t/p/w185/ggs9xnHmpSAFCHEBx3wZvMEo1TK.jpg",
+    photo: "image/ZD.jpg",
     films: "Dune, Euphoria, Spider-Man"
   },
   {
     id: 205,
     name: "Denis Villeneuve", profession: "Director",
-    photo: "https://image.tmdb.org/t/p/w185/4GFPMe7DRRvdBzU9RaMK28UlMz9.jpg",
+    photo: "image/DV.jpg",
     films: "Dune, Arrival, Blade Runner 2049"
   },
   {
     id: 206,
     name: "Christopher Nolan", profession: "Director",
-    photo: "https://image.tmdb.org/t/p/w185/xuAIuYSmsUzKlUMigyf2KwbySeJ.jpg",
+    photo: "image/CN.jpg",
     films: "Oppenheimer, Inception, The Dark Knight"
   }
 ];
@@ -299,14 +448,14 @@ const upcoming = [
     id: 303, title: "Gladiator II",
     releaseDate: "November 22, 2024",
     daysLeft: 0, genre: ["Action", "Drama"],
-    poster: "https://image.tmdb.org/t/p/w500/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
+    poster: "image/GD3.jpg",
     trailer: "#"
   },
   {
     id: 304, title: "Wicked",
     releaseDate: "November 27, 2024",
     daysLeft: 0, genre: ["Musical", "Fantasy"],
-    poster: "https://image.tmdb.org/t/p/w500/c1ZrSFMTCdDqtQX3gA3nvkVFaGd.jpg",
+    poster: "image/WK.jpg",
     trailer: "#"
   }
 ];
