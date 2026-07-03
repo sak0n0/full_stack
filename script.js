@@ -91,33 +91,6 @@ const movies = [
     ]
   },
   {
-    id: 12,
-    title: "RG KDAV SACH",
-    year: 2067, rating: 8,
-    genre: ["Biography", "Drama"],
-    runtime: "180 min",
-    director: "Christopher Nolan",
-    description: "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.",
-    poster: "image/folk.jpeg",
-    backdrop: "image/ronaldo.jpg",
-    type: "movie", trending: true, topRated: true,
-    budget: "$100M", boxoffice: "$952M",
-    language: "English", country: "USA",
-    releaseDate: "July 21, 2023",
-    writers: ["Christopher Nolan"],
-    cast: [
-      { name: "Cillian Murphy", char: "J. Robert Oppenheimer", photo: "https://image.tmdb.org/t/p/w185/dm6V24NjjvjMiCtbMkc8Y2WPm2a.jpg" },
-      { name: "Emily Blunt", char: "Katherine Oppenheimer", photo: "https://image.tmdb.org/t/p/w185/oqGLGJmEpROBsA59QdEaQGAJRd3.jpg" },
-      { name: "Matt Damon", char: "Leslie Groves", photo: "https://image.tmdb.org/t/p/w185/ycM57gHGWqFiMHbvRLnTuWcSa7M.jpg" },
-      { name: "Robert Downey Jr.", char: "Lewis Strauss", photo: "https://image.tmdb.org/t/p/w185/yTss4FMbBHHInBBCaT8O9AxibvC.jpg" }
-    ],
-    trailer: "https://www.youtube.com/embed/uYPbbksJxIg",
-    gallery: [
-      "https://image.tmdb.org/t/p/w500/fnbR5LRGSsKt6mBbm3RBPaSi0aV.jpg",
-      "https://image.tmdb.org/t/p/w500/nMKdUUepR0i5zn0y1T4CejMViWo.jpg"
-    ]
-  },
-  {
     id: 3,
     title: "The Shawshank Redemption",
     year: 1994, rating: 9.3,
