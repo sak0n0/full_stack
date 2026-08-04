@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CineDex — View All</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .viewall-hero {
+      background: var(--bg-secondary);
+      padding: 60px 0 30px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .viewall-hero .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 20px;
+      transition: color 0.2s;
+    }
+    .viewall-hero .back-btn:hover { color: var(--accent); }
+    .viewall-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+    }
+    .viewall-hero .count-badge {
+      background: var(--accent);
+      color: #000;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 50px;
+      margin-left: 12px;
+      vertical-align: middle;
+    }
+
+    /* Filter bar */
+    .filter-bar {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 32px;
+    }
+    .filter-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      padding: 7px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    /* Sort select */
+    .sort-select {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+    }
+    .sort-select option { background: var(--bg-card); }
+
+    /* Grid cards */
+    .viewall-grid { padding: 32px 0 60px; }
+
+    .va-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+      height: 100%;
+    }
+    .va-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+    }
+    .va-card-poster {
+      position: relative;
+      aspect-ratio: 2/3;
+      overflow: hidden;
+      background: var(--bg-elevated);
+    }
+    .va-card-poster img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s;
+    }
+    .va-card:hover .va-card-poster img { transform: scale(1.05); }
+    .va-card-rating {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.75);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      backdrop-filter: blur(4px);
+    }
+    .va-card-type {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--accent);
+      color: #000;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .va-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .va-card:hover .va-card-overlay { opacity: 1; }
+    .va-card-overlay-btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .va-card-body { padding: 12px; }
+    .va-card-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+    .va-card-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .va-card-meta .genre-tag {
+      background: var(--bg-elevated);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    /* Celebrity card */
+    .celeb-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 24px 16px;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .celeb-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+    .celeb-card img {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      margin: 0 auto 12px;
+      display: block;
+    }
+    .celeb-card h6 { color: var(--text-primary); font-weight: 700; margin-bottom: 4px; }
+    .celeb-card .celeb-role { color: var(--accent); font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+    .celeb-card .celeb-films { color: var(--text-muted); font-size: 12px; }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+    }
+    .empty-state i { font-size: 48px; margin-bottom: 16px; display: block; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="cinedex-nav" role="navigation">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="cinedex-logo">
+        <img src="logo.jpeg" alt="CineDex" width="100">
+      </a>
+      <div class="nav-search" role="search">
+        <i class="bi bi-search nav-search-icon"></i>
+        <input type="search" id="searchInput" placeholder="Search movies, shows, people…" autocomplete="off" />
+        <div id="searchDropdown" class="search-results-dropdown"></div>
+      </div>
+      <div class="nav-links">
+        <span class="nav-link-item" onclick="window.location.href='index.html'">Home</span>
+        <div class="nav-dropdown" role="menuitem" id="categoriesDropdown">
+          <span class="nav-link-item" onclick="toggleCategoriesDropdown(event)">Categories <i class="bi bi-chevron-down" style="font-size:10px"></i></span>
+          <div class="nav-dropdown-menu">
+            <div class="nav-dropdown-menu-inner">
+              <a href="viewall.html?genre=Action">Action</a>
+              <a href="viewall.html?genre=Drama">Drama</a>
+              <a href="viewall.html?genre=Sci-Fi">Sci-Fi</a>
+              <a href="viewall.html?genre=Comedy">Comedy</a>
+              <a href="viewall.html?genre=Horror">Horror</a>
+              <a href="viewall.html?genre=Thriller">Thriller</a>
+              <a href="viewall.html?genre=Animation">Animation</a>
+            </div>
+          </div>
+        </div>
+        <span class="nav-link-item" onclick="window.location.href='viewall.html?section=allmovies'">Movies</span>
+        <span class="nav-link-item" onclick="window.location.href='viewall.html?section=alltv'">TV Shows</span>
+        <span class="nav-link-item" onclick="window.location.href='viewall.html?section=celebs'">Celebrities</span>
+        <span class="nav-link-item" onclick="window.location.href='viewall.html?section=awards'">Awards</span>
+      </div>
+      <button class="nav-watchlist" data-watchlist aria-label="My Watchlist">
+        <i class="bi bi-bookmark-plus"></i> Watchlist
+        <span data-watchlist-count style="display:none;background:var(--accent);color:#000;font-size:11px;font-weight:700;padding:1px 6px;border-radius:50px;margin-left:6px;">0</span>
+      </button>
+      <button class="btn-signin">Sign In</button>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="viewall-hero">
+  <div class="container">
+    <a href="index.html" class="back-btn">
+      <i class="bi bi-arrow-left"></i> Back to Home
+    </a>
+    <h1 id="pageTitle">All Movies <span class="count-badge" id="countBadge">0</span></h1>
+    <p id="pageSubtitle" style="color:var(--text-secondary);margin-top:8px;font-size:15px"></p>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="container">
+  <div class="filter-bar d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <div id="filterBtns" class="d-flex flex-wrap gap-2"></div>
+    <select class="sort-select" id="sortSelect">
+      <option value="default">Sort: Default</option>
+      <option value="rating">Sort: Highest Rated</option>
+      <option value="year-desc">Sort: Newest First</option>
+      <option value="year-asc">Sort: Oldest First</option>
+      <option value="az">Sort: A → Z</option>
+    </select>
+  </div>
+</div>
+
+<!-- GRID -->
+<div class="container viewall-grid">
+  <div class="row g-3 g-md-4" id="viewallGrid">
+    <div class="col-12 empty-state">
+      <i class="bi bi-film"></i>
+      <p>Loading...</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+<script>
+  // ── Read URL param ──────────────────────────────────────────
+  const params  = new URLSearchParams(window.location.search);
+  const genreParam = params.get('genre');
+  const section = params.get('section') || (genreParam ? 'genre' : 'trending');
+
+  // ── Section config ──────────────────────────────────────────
+  const sectionConfig = {
+    trending:  { title: 'Trending Movies',   subtitle: 'What everyone is watching right now',     getData: () => movies.filter(m => m.trending) },
+    tv:        { title: 'Popular TV Shows',  subtitle: 'Top streaming shows right now',            getData: () => tvShows.filter(s => s.trending) },
+    toprated:  { title: 'Top Rated',         subtitle: 'The highest rated movies & shows of all time', getData: () => [...movies, ...tvShows].filter(m => m.topRated) },
+    celebs:    { title: 'Top Celebrities',   subtitle: 'Actors, actresses & directors in the spotlight', getData: () => celebrities },
+    allmovies: { title: 'All Movies',        subtitle: 'Every movie in our catalog',               getData: () => movies },
+    alltv:     { title: 'All TV Shows',      subtitle: 'Every show in our catalog',                getData: () => tvShows },
+    awards:    { title: 'Award Winners',     subtitle: 'Highest rated, award-worthy picks',         getData: () => [...movies, ...tvShows].filter(m => (m.rating||0) >= 8.0) },
+    watchlist: { title: 'My Watchlist',      subtitle: 'Movies & shows you saved to watch later',   getData: () => {
+        const ids = JSON.parse(localStorage.getItem('cdWatchlist') || '[]');
+        return [...movies, ...tvShows].filter(m => ids.includes(m.id));
+      } },
+    genre:     { title: genreParam ? `${genreParam} Movies & Shows` : 'Browse by Genre', subtitle: genreParam ? `Browse everything tagged "${genreParam}"` : 'Pick a genre to explore', getData: () => [...movies, ...tvShows] },
+    upcoming:  { title: 'Upcoming Releases', subtitle: 'Mark your calendar for these',             getData: () => upcoming },
+  };
+
+  const config = sectionConfig[section] || sectionConfig['trending'];
+  let   allItems = config.getData();
+  let   activeGenre = genreParam || 'All';
+
+  // ── Set page title ──────────────────────────────────────────
+  document.title = `CineDex — ${config.title}`;
+  document.getElementById('pageTitle').innerHTML =
+    `${config.title} <span class="count-badge" id="countBadge">${allItems.length}</span>`;
+  document.getElementById('pageSubtitle').textContent = config.subtitle;
+
+  // ── Sanitize helper ─────────────────────────────────────────
+  function san(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // ── Build genre filter buttons ──────────────────────────────
+  function buildFilters(items) {
+    if (section === 'celebs') return; // no genre filter for celebs
+    const genres = ['All', ...new Set(items.flatMap(i => i.genre || []))].sort();
+    const container = document.getElementById('filterBtns');
+    container.innerHTML = genres.map(g => `
+      <button class="filter-btn ${g === activeGenre ? 'active' : ''}" data-genre="${g}">${g}</button>
+    `).join('');
+    container.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeGenre = btn.dataset.genre;
+        container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGrid(getSorted(getFiltered()));
+      });
+    });
+  }
+
+  function getFiltered() {
+    if (activeGenre === 'All') return allItems;
+    return allItems.filter(i => (i.genre || []).includes(activeGenre));
+  }
+
+  function getSorted(items) {
+    const val = document.getElementById('sortSelect').value;
+    const arr = [...items];
+    if (val === 'rating')    return arr.sort((a,b) => (b.rating||0) - (a.rating||0));
+    if (val === 'year-desc') return arr.sort((a,b) => (b.year||0)   - (a.year||0));
+    if (val === 'year-asc')  return arr.sort((a,b) => (a.year||0)   - (b.year||0));
+    if (val === 'az')        return arr.sort((a,b) => (a.title||a.name||'').localeCompare(b.title||b.name||''));
+    return arr;
+  }
+
+  document.getElementById('sortSelect').addEventListener('change', () => {
+    renderGrid(getSorted(getFiltered()));
+  });
+
+  // ── Render grid ─────────────────────────────────────────────
+  function renderGrid(items) {
+    const grid = document.getElementById('viewallGrid');
+    document.getElementById('countBadge').textContent = items.length;
+
+    if (!items.length) {
+      grid.innerHTML = `<div class="col-12 empty-state"><i class="bi bi-film"></i><p>No results found.</p></div>`;
+      return;
+    }
+
+    if (section === 'celebs') {
+      grid.innerHTML = items.map(c => `
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+          <div class="celeb-card">
+            <img src="${san(c.photo)}" alt="${san(c.name)}"
+                 onerror="this.src='https://via.placeholder.com/90?text=?'">
+            <h6>${san(c.name)}</h6>
+            <div class="celeb-role">${san(c.profession)}</div>
+            <div class="celeb-films">${san(c.films)}</div>
+          </div>
+        </div>
+      `).join('');
+      return;
+    }
+
+    if (section === 'upcoming') {
+      grid.innerHTML = items.map(u => `
+        <div class="col-6 col-sm-4 col-md-3">
+          <div class="va-card" style="cursor:default">
+            <div class="va-card-poster">
+              <img src="${san(u.poster)}" alt="${san(u.title)}" loading="lazy"
+                   onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
+              <div class="upcoming-badge">Coming Soon</div>
+            </div>
+            <div class="va-card-body">
+              <div class="va-card-title">${san(u.title)}</div>
+              <div class="va-card-meta">
+                <i class="bi bi-calendar-event"></i>&nbsp;<span>${san(u.releaseDate)}</span>
+              </div>
+              <div class="va-card-meta" style="margin-top:4px">
+                <span class="genre-tag">${(u.genre||[]).join(' / ')}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      return;
+    }
+
+    grid.innerHTML = items.map(item => `
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="va-card" onclick="window.location.href='movie.html?id=${item.id}'">
+          <div class="va-card-poster">
+            <img src="${san(item.poster)}" alt="${san(item.title)}" loading="lazy"
+                 onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
+            <div class="va-card-rating"><i class="bi bi-star-fill"></i> ${item.rating ?? '—'}</div>
+            ${bookmarkBtnHTML(item.id)}
+            ${item.type === 'tv' ? '<div class="va-card-type">TV</div>' : ''}
+            <div class="va-card-overlay">
+              <button class="va-card-overlay-btn"><i class="bi bi-play-fill"></i> View Details</button>
+            </div>
+          </div>
+          <div class="va-card-body">
+            <div class="va-card-title">${san(item.title)}</div>
+            <div class="va-card-meta">
+              <span>${item.year}</span>
+              <span class="genre-tag">${(item.genre||[])[0] || ''}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ── Init ────────────────────────────────────────────────────
+  buildFilters(allItems);
+  renderGrid(getSorted(getFiltered()));
+  updateWatchlistCount();
+  document.querySelectorAll('[data-watchlist]').forEach(btn => {
+    btn.addEventListener('click', () => { window.location.href = 'viewall.html?section=watchlist'; });
+  });
+
+  if (section === 'watchlist' && !allItems.length) {
+    document.getElementById('viewallGrid').innerHTML = `
+      <div class="col-12 empty-state">
+        <i class="bi bi-bookmark-heart"></i>
+        <p>Your watchlist is empty.</p>
+        <a href="index.html" class="btn-primary-cta d-inline-flex mt-2">Browse Movies</a>
+      </div>`;
+  }
+</script>
+
+<!-- Sign In Modal -->
+<div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center px-5 pb-5">
+        <h2 class="modal-title mb-3" id="signInModalLabel" style="color:white; display:flex; align-items:center; justify-content:center; gap:10px;">
+          Welcome to <img src="logo.jpeg" alt="CineDex Logo" width="140" style="vertical-align:middle;">
+        </h2>
+        <p class="text-muted mb-4" style="font-size:14px; color:white;">
+          Sign in to save your watchlist and ratings
+        </p>
+
+        <button class="signin-social-btn mb-3">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="20" alt="Google"> Continue with Google
+        </button>
+        <button class="signin-social-btn mb-3">
+          <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" width="20" alt="Facebook"> Continue with Facebook
+        </button>
+        <button class="signin-social-btn mb-4">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg> Continue with Apple
+        </button>
+
+        <div class="signin-divider mb-3"><span>Or</span></div>
+
+        <p style="font-size:14px; color:white;">
+          <a href="#" class="text-accent">Sign up</a> or <a href="#" class="text-accent">log in</a> with email
+        </p>
+        <p class="text-muted mt-3" style="font-size:12px; color:white;">
+          By continuing, you agree to our <a href="#" class="text-accent">Terms</a> and <a href="#" class="text-accent">Privacy Policy</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
