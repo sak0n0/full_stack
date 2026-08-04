@@ -860,7 +860,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initSignIn();
   initDetailPage();
 });
-
 /* ── 17. Expose data globally for movie.html hydration ────── */
 window._cdMovies = movies;
 window._cdTV     = tvShows;
