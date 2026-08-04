@@ -31,8 +31,41 @@ const movies = [
       "https://image.tmdb.org/t/p/w500/zm7MQGD3sFn2q7pWYS7Y3fMFSBl.jpg",
       "https://image.tmdb.org/t/p/w500/fiVW06jE7z9YnO4trhaMEdclSiC.jpg",
       "https://image.tmdb.org/t/p/w500/4E8U3UATX0YGUJcKgUV3FQiQ0IQ.jpg"
+
+
     ]
   },
+  {
+    id: 9,
+    title: "Folktain",
+    year: 2026, rating: 6.7,
+    genre: ["Sci-Fi", "Adventure"],
+    runtime: "166 min",
+    director: "Denis Villeneuve",
+    description: "Paul Atreides unites with Chani and the Fremen while on a warpath of revenge against the conspirators who destroyed his family.",
+    poster: "folkcat.jpeg",
+    backdrop: "ronaldo.jpeg",
+    type: "movie", trending: true, topRated: false,
+    budget: "$67cent", boxoffice: "$711M",
+    language: "English/Khmer", country: "Cambodia",
+    releaseDate: "June 1, 2026",
+    writers: ["Mr.Sak", "Ms.Vanda and Ms.Hongly"],
+    cast: [
+      { name: "Timothée Chalamet", char: "Paul Atreides", photo: "ahrith.jpg" },
+      { name: "Zendaya", char: "Chani", photo: "https://image.tmdb.org/t/p/w185/ggs9xnHmpSAFCHEBx3wZvMEo1TK.jpg" },
+      { name: "Rebecca Ferguson", char: "Lady Jessica", photo: "https://image.tmdb.org/t/p/w185/lJloTOheuQSirSLXNA3JHsrMNfB.jpg" },
+      { name: "Austin Butler", char: "Feyd-Rautha", photo: "https://image.tmdb.org/t/p/w185/0lhjI0FBNkn1rQ04yOTmJTeCuGm.jpg" }
+    ],
+    trailer: "https://www.youtube.com/embed/Way9Dexny3w",
+    gallery: [
+      "https://image.tmdb.org/t/p/w500/zm7MQGD3sFn2q7pWYS7Y3fMFSBl.jpg",
+      "https://image.tmdb.org/t/p/w500/fiVW06jE7z9YnO4trhaMEdclSiC.jpg",
+      "https://image.tmdb.org/t/p/w500/4E8U3UATX0YGUJcKgUV3FQiQ0IQ.jpg"
+
+
+    ]
+  },
+
   {
     id: 2,
     title: "Oppenheimer",
